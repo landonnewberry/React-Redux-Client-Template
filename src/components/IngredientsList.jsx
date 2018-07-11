@@ -1,8 +1,11 @@
+import React from 'react';
 import Ingredient from './Ingredient';
 
-export default IngredientsList = ({ list }) =>
+const IngredientsList = ({ list }) =>
     <ul className='ingredients'>
         { list.map((ingredient, i) =>
             <Ingredient key={ i } { ...ingredient } />
         )}
     </ul>
+
+module.exports = IngredientsList

@@ -1,17 +1,34 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry: "./src/index",
+    entry: [
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/only-dev-server',
+        './src/index'
+    ],
     output: {
         path: __dirname + "/dist/assets",
         filename: "bundle.js",
+        publicPath: '/',
         sourceMapFilename: 'bundle.map'
+    },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+    devServer: {
+        contentBase: './dist',
+        hot: true
     },
     devtool: '#source-map',
     module: {
+        loaders: [{
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            loader: 'react-hot!babel'
+        }],
         rules: [
             {
-                test: /\.jsx$/,
+                test: /\.jsx?$/,
                 exclude: /(node_modules)/,
                 loader: ['babel-loader'],
                 query: {
@@ -29,10 +46,6 @@ module.exports = {
        ]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            warnings: false,
-            mangle: true
-        })
+        new webpack.HotModuleReplacementPlugin()
     ]
 }
